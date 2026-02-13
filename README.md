@@ -110,9 +110,9 @@ bun tauri dev
 ```
 
 ## Por hacer
-1. Import Excel
+1. dynamic column active products
 2. login
-3. dinamic column active products
+3. add dynamic pagination
 4. Filter Sales Hour
 5. Graphics
 

@@ -11,8 +11,8 @@ import { flexRender } from "@tanstack/react-table";
 import useProductsTable from "./table/hooks/useProductsTable";
 import type { ProductsTableProps } from "../types/products.types";
 
-const ProductsTable = ({ data }: ProductsTableProps) => {
-	const table = useProductsTable({ data });
+const ProductsTable = ({ data, meta }: ProductsTableProps) => {
+	const table = useProductsTable({ data, meta });
 
 	return (
 		<Table className="ProductsTable">

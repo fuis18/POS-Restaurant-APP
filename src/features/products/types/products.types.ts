@@ -1,14 +1,9 @@
+import type { TableMeta } from "@tanstack/react-table";
 import { z } from "zod";
-
-interface ProductsTableMeta {
-	onEdit?: (id: number) => void;
-	onDelete?: (id: number) => void;
-	onReactivate?: (id: number) => void;
-}
 
 export interface ProductsTableProps {
 	data: Product[];
-	meta?: ProductsTableMeta;
+	meta?: TableMeta<Product>;
 }
 
 /* ---------- Entity ---------- */

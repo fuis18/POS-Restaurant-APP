@@ -22,5 +22,7 @@ declare module "@tanstack/react-table" {
 			createRow: boolean,
 		) => void;
 		submit?: () => void;
+		onDelete?: (id: number) => Promise<void>;
+		onReactivate?: (id: number) => Promise<void>;
 	}
 }

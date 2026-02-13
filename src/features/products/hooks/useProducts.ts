@@ -4,6 +4,8 @@ import { CONFIG } from "@/constants/config";
 import {
 	getAllProducts,
 	getProductsCount,
+	reactivateProduct,
+	softDeleteProduct,
 } from "../repository/products.repository";
 import { usePagination } from "@/hooks/usePagination";
 
@@ -22,6 +24,20 @@ const useProducts = () => {
 	const reload = () => getAllProducts(limit, offset).then(setProducts);
 
 	// --------------------
+	// ACTIONS
+	// --------------------
+	const handleDelete = async (id: number) => {
+		console.log(id);
+		await softDeleteProduct(id);
+		await reload();
+	};
+
+	const handleReactivate = async (id: number) => {
+		await reactivateProduct(id);
+		await reload();
+	};
+
+	// --------------------
 	// EFFECTS
 	// --------------------
 	useEffect(() => {
@@ -38,6 +54,9 @@ const useProducts = () => {
 		setPage,
 		totalPages,
 		reload,
+		// actions
+		handleDelete,
+		handleReactivate,
 	};
 };
 export default useProducts;
