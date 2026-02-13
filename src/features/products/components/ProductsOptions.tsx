@@ -4,7 +4,7 @@ import ProductDialog from "./ProductDialog";
 import ImportDialog from "./ProductImportDialog";
 
 interface ProductsOptionsProps {
-	loadProducts: () => void;
+	loadProducts: () => Promise<void>;
 }
 
 const ProductsOptions = ({ loadProducts }: ProductsOptionsProps) => {

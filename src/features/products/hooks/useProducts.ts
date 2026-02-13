@@ -21,7 +21,16 @@ const useProducts = () => {
 	const limit = CONFIG.LIMIT;
 	const offset = (page - 1) * limit;
 
-	const reload = () => getAllProducts(limit, offset).then(setProducts);
+	const reloadProducts = () => getAllProducts(limit, offset).then(setProducts);
+
+	const updateTotalPages = async () => {
+		const total = await getProductsCount();
+		setTotalPages(Math.ceil(total / limit));
+	};
+
+	const reloadAll = async () => {
+		await Promise.all([reloadProducts(), updateTotalPages()]);
+	};
 
 	// --------------------
 	// ACTIONS
@@ -29,12 +38,12 @@ const useProducts = () => {
 	const handleDelete = async (id: number) => {
 		console.log(id);
 		await softDeleteProduct(id);
-		await reload();
+		await reloadProducts();
 	};
 
 	const handleReactivate = async (id: number) => {
 		await reactivateProduct(id);
-		await reload();
+		await reloadProducts();
 	};
 
 	// --------------------
@@ -53,8 +62,8 @@ const useProducts = () => {
 		page,
 		setPage,
 		totalPages,
-		reload,
 		// actions
+		reloadAll,
 		handleDelete,
 		handleReactivate,
 	};

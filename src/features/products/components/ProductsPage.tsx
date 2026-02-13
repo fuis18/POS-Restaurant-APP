@@ -9,7 +9,7 @@ export const ProductsPage = () => {
 		page,
 		setPage,
 		totalPages,
-		reload,
+		reloadAll,
 		handleDelete,
 		handleReactivate,
 	} = useProducts();
@@ -26,7 +26,7 @@ export const ProductsPage = () => {
 				/>
 				<PagTable page={page} setPage={setPage} totalPages={totalPages} />
 			</div>
-			<ProductsOptions loadProducts={reload} />
+			<ProductsOptions loadProducts={reloadAll} />
 		</main>
 	);
 };

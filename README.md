@@ -110,11 +110,11 @@ bun tauri dev
 ```
 
 ## Por hacer
-1. dynamic column active products
-2. login
-3. add dynamic pagination
-4. Filter Sales Hour
-5. Graphics
+
+1. add dynamic pagination
+2. Filter Sales Hour
+3. login
+4. Graphics
 
 como usar
 bun tauri add store
