@@ -27,7 +27,7 @@ export const RegistryPage = () => {
 			<div>
 				<RegistryTable
 					data={data}
-					meta={{ updateCell, updateRow, addRow, focus, upsertProduct }}
+					meta={{ updateCell, updateRow, addRow, focus, upsertProduct, submit }}
 					onSelectionChange={setSelectedRows}
 				/>
 

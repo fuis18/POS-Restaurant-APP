@@ -30,25 +30,32 @@ export default function CodeCell({
 				if (e.key === "Enter") e.preventDefault();
 
 				if (e.key === "Enter" || e.key === "Tab") {
-					const code = Number((e.target as HTMLInputElement).value);
+					const inputValue = (e.target as HTMLInputElement).value;
+
+					if (e.key === "Enter" && inputValue === "") {
+						const hasValidRows = table
+							.getRowModel()
+							.rows.some(
+								(r) => r.original.product_id !== null && r.index !== row.index,
+							);
+
+						if (hasValidRows) {
+							// Enviar el registro
+							meta?.submit?.();
+							return;
+						}
+
+						// Si no hay filas válidas, no hacer nada
+						return;
+					}
+					const code = Number(inputValue);
 					if (Number.isNaN(code)) return;
 
 					const product = await getProductByCode(code);
 
 					if (!product) return;
 
-					// meta?.updateRow?.(row.index, {
-					// 	product_id: product.id,
-					// 	code: String(product.code),
-					// 	name: product.name,
-					// 	price: product.price,
-					// 	quantity: 1,
-					// 	total: product.price,
-					// });
-
 					meta?.upsertProduct?.(row.index, product, e.key === "Enter");
-
-					// if (e.key === "Enter") meta?.addRow?.();
 				}
 			}}
 		/>

@@ -21,5 +21,6 @@ declare module "@tanstack/react-table" {
 			},
 			createRow: boolean,
 		) => void;
+		submit?: () => void;
 	}
 }

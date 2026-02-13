@@ -2,19 +2,16 @@ import {
 	useReactTable,
 	getCoreRowModel,
 	type RowSelectionState,
-	type TableMeta,
 } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
-import type { Registry } from "../../../types/registry.types";
 import { columns } from "../registry-columns";
+import type { RegistryTableProps } from "@/features/registry/types/registry.types";
 
-interface Params {
-	data: Registry[];
-	meta?: TableMeta<Registry>;
-	onSelectionChange?: (rows: Registry[]) => void;
-}
-
-const useRegistryTable = ({ data, meta, onSelectionChange }: Params) => {
+const useRegistryTable = ({
+	data,
+	meta,
+	onSelectionChange,
+}: RegistryTableProps) => {
 	const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
 	// eslint-disable-next-line react-hooks/incompatible-library
