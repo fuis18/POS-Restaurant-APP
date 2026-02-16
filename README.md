@@ -2,12 +2,14 @@
 
 This is a restaurant app that allows you to manage your restaurant's sales and inventory.
 
+<div style="display: grid; grid-template-columns: repeat(2, 1fr);">
 <img src="./assets/img-1.png" alt="img-1">
 <img src="./assets/img-2.png" alt="img-2">
 <img src="./assets/img-3.png" alt="img-3">
 <img src="./assets/img-4.png" alt="img-4">
 <img src="./assets/img-5.png" alt="img-5">
 <img src="./assets/img-6.png" alt="img-6">
+</div>
 
 ## Setup
 
