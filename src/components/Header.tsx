@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 const Header = () => {
 	return (
-		<div className="flex justify-around p-2">
+		<header className="flex justify-around p-2">
 			<Button asChild>
 				<Link to="/">Registro</Link>
 			</Button>
@@ -16,7 +16,7 @@ const Header = () => {
 			<Button>
 				<Link to="/login">Login</Link>
 			</Button>
-		</div>
+		</header>
 	);
 };
 

@@ -1,4 +1,3 @@
-// src\features\products\products.repository.ts
 import { select, execute, insert } from "@/database/index.ts";
 import type {
 	CreateProduct,

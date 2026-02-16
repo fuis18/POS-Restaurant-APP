@@ -3,9 +3,10 @@ import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { FormType } from "@/features/users/types/userSchema";
-import { useForm } from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { userSchema } from "@/features/users/types/userSchema";
+import { userService } from "@/features/users/service/users.service";
 
 const SignUp = () => {
 	const form = useForm<FormType>({
@@ -16,10 +17,32 @@ const SignUp = () => {
 		},
 	});
 
+	const onSubmit: SubmitHandler<FormType> = async (data) => {
+		try {
+			const parsed = userSchema.parse(data);
+
+			console.log(parsed);
+
+			await userService.createUser({
+				username: parsed.username,
+				password: parsed.password,
+			});
+
+			form.reset();
+		} catch (error) {
+			form.setError("root", {
+				type: "server",
+				message:
+					"No se pudo realizar el registro. " +
+					(error instanceof Error ? error : ""),
+			});
+		}
+	};
+
 	return (
 		<div className="form-container">
 			<Form {...form}>
-				<form className="space-y-4">
+				<form className="form-content" onSubmit={form.handleSubmit(onSubmit)}>
 					<div>
 						<Label htmlFor="username">Nombre de Usuario</Label>
 						<Input
@@ -29,6 +52,11 @@ const SignUp = () => {
 								onChange: () => form.clearErrors("root"),
 							})}
 						/>
+						{form.formState.errors.username && (
+							<p className="text-red-500 text-sm">
+								{form.formState.errors.username.message}
+							</p>
+						)}
 					</div>
 					<div>
 						<Label htmlFor="password">Password</Label>
@@ -39,6 +67,11 @@ const SignUp = () => {
 								onChange: () => form.clearErrors("root"),
 							})}
 						/>
+						{form.formState.errors.password && (
+							<p className="text-red-500 text-sm">
+								{form.formState.errors.password.message}
+							</p>
+						)}
 					</div>
 					<div>
 						{form.formState.errors.root && (
@@ -46,7 +79,9 @@ const SignUp = () => {
 								{form.formState.errors.root.message}
 							</p>
 						)}
-						<Button type="submit">Sign Up</Button>
+						<span>
+							<Button type="submit">Sign Up</Button>
+						</span>
 					</div>
 				</form>
 			</Form>

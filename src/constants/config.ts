@@ -1,3 +1,3 @@
 export const CONFIG = {
-	LIMIT: 10,
+	LIMIT: 8,
 };

@@ -9,6 +9,8 @@ import { Form } from "@/components/ui/form";
 import { Link } from "react-router-dom";
 import { userSchema } from "@/features/users/types/userSchema";
 import type { FormType } from "@/features/users/types/userSchema";
+import type { SubmitHandler } from "react-hook-form";
+import { userService } from "@/features/users/service/users.service";
 
 const Login = () => {
 	const form = useForm<FormType>({
@@ -19,31 +21,30 @@ const Login = () => {
 		},
 	});
 
-	// const onSubmit: SubmitHandler<FormType> = async (data) => {
-	// 	try {
-	// 		const parsed = userSchema.parse(data);
+	const onSubmit: SubmitHandler<FormType> = async (data) => {
+		try {
+			const parsed = userSchema.parse(data);
 
-	// 		await getUser({
-	// 			username: parsed.username,
-	// 			password: parsed.password,
-	// 		});
+			await userService.getUser({
+				username: parsed.username,
+				password: parsed.password,
+			});
 
-	// 		form.reset();
-	// 	} catch (error) {
-	// 		form.setError("root", {
-	// 			type: "server",
-	// 			message:
-	// 				"No se pudo realizar el registro. " +
-	// 				(error instanceof Error ? error : ""),
-	// 		});
-	// 	}
-	// };
+			form.reset();
+		} catch (error) {
+			form.setError("root", {
+				type: "server",
+				message:
+					"No se pudo realizar el registro. " +
+					(error instanceof Error ? error : ""),
+			});
+		}
+	};
 
 	return (
 		<div className="form-container">
 			<Form {...form}>
-				<form className="space-y-4">
-					{/* onSubmit={form.handleSubmit(onSubmit)} */}
+				<form className="form-content" onSubmit={form.handleSubmit(onSubmit)}>
 					<div>
 						<Label htmlFor="username">Nombre de Usuario</Label>
 						<Input
@@ -80,13 +81,20 @@ const Login = () => {
 								{form.formState.errors.root.message}
 							</p>
 						)}
-						<Button type="submit">Login</Button>
+						<span>
+							<Button type="submit">Login</Button>
+							<Button variant="outline" type="button">
+								<Link
+									to="/login/signin"
+									className="text-blue-500 underline text-sm"
+								>
+									Sign Up
+								</Link>
+							</Button>
+						</span>
 					</div>
 				</form>
 			</Form>
-			<Link to="/login/signin" className="text-blue-500 underline text-sm">
-				Sign Up
-			</Link>
 		</div>
 	);
 };
