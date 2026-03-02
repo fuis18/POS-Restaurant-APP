@@ -11,6 +11,7 @@ import { userSchema } from "@/features/users/types/userSchema";
 import type { FormType } from "@/features/users/types/userSchema";
 import type { SubmitHandler } from "react-hook-form";
 import { userService } from "@/features/users/service/users.service";
+import { useUserStore } from "@/store/userStore";
 
 const Login = () => {
 	const form = useForm<FormType>({
@@ -25,17 +26,19 @@ const Login = () => {
 		try {
 			const parsed = userSchema.parse(data);
 
-			await userService.getUser({
+			const user = await userService.getUser({
 				username: parsed.username,
 				password: parsed.password,
 			});
+
+			useUserStore.setState({ user: user[0] });
 
 			form.reset();
 		} catch (error) {
 			form.setError("root", {
 				type: "server",
 				message:
-					"No se pudo realizar el registro. " +
+					"No se pudo realizar el login. " +
 					(error instanceof Error ? error : ""),
 			});
 		}
@@ -85,7 +88,7 @@ const Login = () => {
 							<Button type="submit">Login</Button>
 							<Button variant="outline" type="button">
 								<Link
-									to="/login/signin"
+									to="/login/token"
 									className="text-blue-500 underline text-sm"
 								>
 									Sign Up

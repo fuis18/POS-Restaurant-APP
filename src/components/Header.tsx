@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import UserMenu from "@/features/users/components/UserMenu"
 
 const Header = () => {
 	return (
@@ -13,9 +14,7 @@ const Header = () => {
 			<Button asChild>
 				<Link to="/sales">Ventas</Link>
 			</Button>
-			<Button>
-				<Link to="/login">Login</Link>
-			</Button>
+			<UserMenu />
 		</header>
 	);
 };

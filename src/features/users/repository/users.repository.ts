@@ -1,8 +1,12 @@
 import { insert, select } from "@/database/index.ts";
 import type { CreateUser, UserCredentials } from "../types/users.types";
+import type { User } from "../types/users.types";
 
 export async function getUser(user: UserCredentials) {
-	return select("SELECT * FROM users WHERE username = ?", [user.username]);
+	return select<User>(
+		"SELECT * FROM users WHERE username = ? AND password = ?",
+		[user.username, user.password],
+	);
 }
 
 export async function createUser(user: CreateUser) {

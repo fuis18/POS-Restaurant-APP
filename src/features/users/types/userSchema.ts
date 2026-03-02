@@ -12,3 +12,9 @@ export const userSchema = z.object({
 });
 
 export type FormType = z.input<typeof userSchema>;
+
+export const userToken = z.object({
+	token: z.string().length(6, "El token debe tener 6 dígitos"),
+});
+
+export type TokenType = z.input<typeof userToken>;

@@ -117,10 +117,13 @@ bun tauri dev
 
 ## Por hacer
 
-2. login avatar and options
-1. Filter Sales Hour
-3. credits
-4. Graphics
-5. visual table scroll
+1. options login
+  1. random token & isolation
+	1. Settings
+2. Filter Sales Hour
+3. update the import for acepted excel's files
+4. credits
+5. Graphics
+6. visual table scroll
 
 <!-- bun tauri add store -->

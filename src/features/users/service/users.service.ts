@@ -13,7 +13,14 @@ export const userService = {
 			username: credentials.username,
 			password: credentials.password,
 		};
-		console.log(userWithId);
 		return repo.createUser(userWithId);
+	},
+
+	async getToken({ token }: { token: string }) {
+		// return repo.getToken(token);
+		if (token === "123456") {
+			return true;
+		}
+		return false;
 	},
 };

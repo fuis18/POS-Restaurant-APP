@@ -1,7 +1,3 @@
-* {
-	font-size: 22px;
-}
-
 .ProductsPage-container,
 .RegistryPage-container {
 	display: grid;
@@ -49,7 +45,8 @@ th {
 	justify-content: center;
 }
 
-.form-container {
+.form-container,
+.form-container-otp {
 	width: 600px;
 	margin: 50px auto;
 	text-align: center;
