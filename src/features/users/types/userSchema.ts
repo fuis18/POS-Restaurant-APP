@@ -4,7 +4,8 @@ export const userSchema = z.object({
 	username: z
 		.string()
 		.min(6, "El nombre de usuario debe tener al menos 6 caracteres")
-		.max(20, "El nombre de usuario no puede superar los 20 caracteres"),
+		.max(20, "El nombre de usuario no puede superar los 20 caracteres")
+		.transform((val) => val.toLowerCase()),
 	password: z
 		.string()
 		.min(8, "La contraseña debe tener al menos 8 caracteres")

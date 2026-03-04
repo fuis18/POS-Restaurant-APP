@@ -21,8 +21,6 @@ const SignUp = () => {
 		try {
 			const parsed = userSchema.parse(data);
 
-			console.log(parsed);
-
 			await userService.createUser({
 				username: parsed.username,
 				password: parsed.password,

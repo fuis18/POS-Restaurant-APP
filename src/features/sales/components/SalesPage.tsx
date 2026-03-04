@@ -11,6 +11,7 @@ export const SalesPage = () => {
 		page,
 		setPage,
 		totalPages,
+		totalAmount,
 		dialogOpen,
 		closeDialog,
 		openSaleDetail,
@@ -20,7 +21,7 @@ export const SalesPage = () => {
 	} = useSales();
 
 	return (
-		<main>
+		<main className="px-1 gap-1 flex flex-col">
 			<SalesFilter
 				setPage={setPage}
 				selectedDate={selectedDate}
@@ -28,6 +29,12 @@ export const SalesPage = () => {
 			/>
 
 			<SalesTable data={sales} columns={columns} onRowClick={openSaleDetail} />
+
+			<div className="flex justify-end items-center">
+				<span className="mr-4 font-bold">
+					Total: S/. {totalAmount.toFixed(2)}
+				</span>
+			</div>
 
 			<SaleDialog
 				open={dialogOpen}

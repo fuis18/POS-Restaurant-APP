@@ -7,7 +7,6 @@ export const userService = {
 	},
 
 	async createUser(credentials: UserCredentials) {
-		console.log(credentials);
 		const userWithId: CreateUser = {
 			id: crypto.randomUUID(),
 			username: credentials.username,

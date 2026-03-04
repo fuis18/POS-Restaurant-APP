@@ -2,7 +2,7 @@ import * as repo from "../repository/sales.repository";
 import type { CreateSale } from "../types/sales.types";
 
 export const salesService = {
-	async list(
+	async findAll(
 		limit: number,
 		offset: number,
 		date?: { from?: string; to?: string },

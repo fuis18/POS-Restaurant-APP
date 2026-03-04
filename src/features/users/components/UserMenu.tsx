@@ -25,7 +25,7 @@ const UserMenu = () => {
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				<Button>
-					<Link to="/login">{user.username}</Link>
+					<Link to="/login">{user.username.toUpperCase()}</Link>
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>

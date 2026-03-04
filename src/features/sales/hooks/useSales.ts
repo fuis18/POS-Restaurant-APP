@@ -1,13 +1,11 @@
 // src/features/sales/useSales.ts
 import { useEffect, useState } from "react";
 import { CONFIG } from "@/constants/config";
-import {
-	getAllSales,
-	getSaleItems,
-	getSalesCount,
-} from "@/features/sales/repository/sales.repository";
+import { salesService } from "../service/sales.service";
 import type { Sale, SaleItem } from "@/features/sales/types/sales.types";
 import { usePagination } from "@/hooks/usePagination";
+import { startOfWeek, endOfWeek, format } from "date-fns";
+import { getSalesTotal } from "../repository/sales.repository";
 
 export function useSales() {
 	// --------------------
@@ -17,6 +15,7 @@ export function useSales() {
 	const [selectedSaleItems, setSelectedSaleItems] = useState<SaleItem[] | null>(
 		null,
 	);
+	const [totalAmount, setTotalAmount] = useState(0);
 
 	// --------------------
 	// PAGINATION
@@ -30,10 +29,19 @@ export function useSales() {
 	// --------------------
 	// FILTERS
 	// --------------------
+
+	const getCurrentWeekRange = () => {
+		const now = new Date();
+		return {
+			from: format(startOfWeek(now, { weekStartsOn: 0 }), "yyyy-MM-dd"),
+			to: format(endOfWeek(now, { weekStartsOn: 0 }), "yyyy-MM-dd"),
+		};
+	};
+
 	const [selectedDate, setSelectedDate] = useState<{
 		from?: string;
 		to?: string;
-	}>();
+	}>(getCurrentWeekRange());
 
 	// --------------------
 	// DIALOG
@@ -49,7 +57,7 @@ export function useSales() {
 		setDialogOpen(true);
 		setSelectedSaleItems(null); // loading state
 
-		const items = await getSaleItems(saleId);
+		const items = await salesService.getItems(saleId);
 		setSelectedSaleItems(items);
 	};
 
@@ -58,13 +66,15 @@ export function useSales() {
 	// --------------------
 	useEffect(() => {
 		const fetchSales = async () => {
-			const [salesData, total] = await Promise.all([
-				getAllSales(limit, offset, selectedDate),
-				getSalesCount(selectedDate),
+			const [salesData, total, amount] = await Promise.all([
+				salesService.findAll(limit, offset, selectedDate),
+				salesService.count(selectedDate),
+				getSalesTotal(selectedDate),
 			]);
 
 			setSales(salesData);
 			setTotalPages(Math.ceil(total / limit));
+			setTotalAmount(amount);
 		};
 
 		void fetchSales();
@@ -78,10 +88,12 @@ export function useSales() {
 		page,
 		setPage,
 		totalPages,
+		totalAmount,
 
 		// filters
 		selectedDate,
-		setSelectedDate,
+		setSelectedDate: (date?: { from?: string; to?: string }) =>
+			setSelectedDate(date ?? getCurrentWeekRange()),
 
 		// dialog
 		dialogOpen,

@@ -51,6 +51,22 @@ export async function getSalesCount(date?: {
 	return result[0].count;
 }
 
+export async function getSalesTotal(date?: {
+	from?: string;
+	to?: string;
+}): Promise<number> {
+	let query = "SELECT COALESCE(SUM(total), 0) as total FROM sales";
+	const params: DbParam[] = [];
+
+	if (date?.from && date?.to) {
+		query += " WHERE date(date) BETWEEN date(?) AND date(?)";
+		params.push(date.from, date.to);
+	}
+
+	const result = await select<{ total: number }>(query, params);
+	return result[0].total;
+}
+
 export async function createSale(sale: CreateSale) {
 	try {
 		const saleId = await insert("INSERT INTO sales (total) VALUES ($1)", [

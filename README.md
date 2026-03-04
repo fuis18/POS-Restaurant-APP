@@ -118,12 +118,12 @@ bun tauri dev
 ## Por hacer
 
 1. Filter Sales Hour
-2. options login
-  - random token & isolation
-	- Settings
+2. random token & isolation
 3. update the import for acepted excel's files
-4. Graphics
-5. visual table scroll
-6. credits
+4. export
+5. Graphics
+6. visual table scroll
+7. credits
+8. Settings
 
 <!-- bun tauri add store -->

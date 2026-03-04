@@ -4,6 +4,9 @@ export interface CreateUser {
 	password: string;
 }
 
-export type UserCredentials = Omit<CreateUser, "id">;
+export interface User {
+	id: string;
+	username: string;
+}
 
-export type User = CreateUser;
+export type UserCredentials = Omit<CreateUser, "id">;

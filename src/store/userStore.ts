@@ -1,9 +1,5 @@
+import type { User } from "@/features/users/types/users.types";
 import { create } from "zustand";
-
-export interface User {
-	id: string;
-	username: string;
-}
 
 export interface UserStore {
 	user: User | null;

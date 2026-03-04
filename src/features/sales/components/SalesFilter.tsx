@@ -9,7 +9,7 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { useState } from "react";
 import type { DateRange } from "react-day-picker";
-import { format } from "date-fns";
+import { format, startOfWeek, endOfWeek } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 
 interface SalesFilterProps {
@@ -17,6 +17,14 @@ interface SalesFilterProps {
 	selectedDate?: { from?: string; to?: string };
 	setSelectedDate: (date?: { from?: string; to?: string }) => void;
 }
+
+const getCurrentWeekRange = (): DateRange => {
+	const now = new Date();
+	return {
+		from: startOfWeek(now, { weekStartsOn: 0 }), // 0 = domingo
+		to: endOfWeek(now, { weekStartsOn: 0 }), // termina en sábado
+	};
+};
 
 const SalesFilter = ({
 	setPage,
@@ -31,7 +39,7 @@ const SalesFilter = ({
 				to: new Date(selectedDate.to),
 			};
 		}
-		return { from: undefined, to: undefined };
+		return getCurrentWeekRange();
 	});
 
 	const applyFilter = () => {
