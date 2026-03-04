@@ -5,20 +5,30 @@ export const productService = {
 		return repo.getProductByCode(code);
 	},
 
-	async searchByLike(name: string) {
-		if (!name.trim()) return [];
-		return repo.getProductByLike(name);
-	},
-
 	async findByName(name: string) {
 		return repo.getProductByName(name);
 	},
 
-	async getPaginated(limit: number, offset: number) {
-		return repo.getAllProducts(limit, offset);
+	async findByLike(name: string) {
+		if (!name.trim()) return [];
+		return repo.getProductByLike(name);
 	},
 
-	async count() {
-		return repo.getProductsCount();
+	async findAll(limit: number, offset: number, user: boolean) {
+		const [data, total] = await Promise.all([
+			user
+				? repo.getAllProducts(limit, offset)
+				: repo.getAllProductsActive(limit, offset),
+			user ? repo.getProductsCount() : repo.getProductsCountActive(),
+		]);
+		return { data, total };
+	},
+
+	async reactive(id: number) {
+		return repo.reactivateProduct(id);
+	},
+
+	async delete(id: number) {
+		return repo.softDeleteProduct(id);
 	},
 };

@@ -6,16 +6,6 @@ import type {
 	UpdateProduct,
 } from "../types/products.types";
 
-export async function getAllProducts(
-	limit: number,
-	offset: number,
-): Promise<Product[]> {
-	return select<Product>(
-		"SELECT id, code, name, price, state FROM products LIMIT ? OFFSET ?",
-		[limit, offset],
-	);
-}
-
 export async function getProductByCode(
 	code: number,
 ): Promise<ProductListItem | null> {
@@ -46,9 +36,36 @@ export async function getProductByLike(
 	return result;
 }
 
+export async function getAllProducts(
+	limit: number,
+	offset: number,
+): Promise<Product[]> {
+	return select<Product>(
+		"SELECT id, code, name, price, state FROM products LIMIT ? OFFSET ?",
+		[limit, offset],
+	);
+}
+
 export async function getProductsCount(): Promise<number> {
 	const result = await select<{ count: number }>(
 		"SELECT COUNT(*) as count FROM products",
+	);
+	return result[0].count;
+}
+
+export async function getAllProductsActive(
+	limit: number,
+	offset: number,
+): Promise<Product[]> {
+	return select<Product>(
+		"SELECT id, code, name, price, state FROM products WHERE state = 1 LIMIT ? OFFSET ?",
+		[limit, offset],
+	);
+}
+
+export async function getProductsCountActive(): Promise<number> {
+	const result = await select<{ count: number }>(
+		"SELECT COUNT(*) as count FROM products WHERE state = 1",
 	);
 	return result[0].count;
 }

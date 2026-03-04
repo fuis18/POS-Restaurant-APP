@@ -1,17 +1,13 @@
 import { useEffect, useState } from "react";
 import type { Product } from "../types/products.types";
 import { CONFIG } from "@/constants/config";
-import {
-	getAllProducts,
-	getProductsCount,
-	reactivateProduct,
-	softDeleteProduct,
-} from "../repository/products.repository";
 import { usePagination } from "@/hooks/usePagination";
+import { productService } from "../service/products.service";
+import { useUserStore } from "@/store/userStore";
 
 const useProducts = () => {
 	const [products, setProducts] = useState<Product[]>([]);
-
+	const { user } = useUserStore();
 	// --------------------
 	// PAGINATION
 	// --------------------
@@ -21,15 +17,15 @@ const useProducts = () => {
 	const limit = CONFIG.LIMIT;
 	const offset = (page - 1) * limit;
 
-	const reloadProducts = () => getAllProducts(limit, offset).then(setProducts);
+	const reloadProducts = async () => {
+		const { data, total } = await productService.findAll(limit, offset, !!user);
 
-	const updateTotalPages = async () => {
-		const total = await getProductsCount();
+		setProducts(data);
 		setTotalPages(Math.ceil(total / limit));
 	};
 
 	const reloadAll = async () => {
-		await Promise.all([reloadProducts(), updateTotalPages()]);
+		await Promise.all([reloadProducts()]);
 	};
 
 	// --------------------
@@ -37,28 +33,37 @@ const useProducts = () => {
 	// --------------------
 	const handleDelete = async (id: number) => {
 		console.log(id);
-		await softDeleteProduct(id);
-		await reloadProducts();
+		await productService.reactive(id);
+		reloadProducts();
 	};
 
 	const handleReactivate = async (id: number) => {
-		await reactivateProduct(id);
-		await reloadProducts();
+		await productService.delete(id);
+		reloadProducts();
 	};
 
 	// --------------------
 	// EFFECTS
 	// --------------------
 	useEffect(() => {
-		getAllProducts(limit, offset).then(setProducts);
-		getProductsCount().then((total) => {
+		const fetchProducts = async () => {
+			const { data, total } = await productService.findAll(
+				limit,
+				offset,
+				!!user,
+			);
+
+			setProducts(data);
 			setTotalPages(Math.ceil(total / limit));
-		});
-	}, [limit, offset, page]);
+		};
+
+		fetchProducts();
+	}, [limit, offset, user]);
 
 	return {
 		// data
 		products,
+		// pagination
 		page,
 		setPage,
 		totalPages,
