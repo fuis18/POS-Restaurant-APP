@@ -81,7 +81,7 @@ th {
 	gap: 0.5rem;
 }
 
-.form-content div {
+.form-content .form-field {
 	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;

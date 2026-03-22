@@ -8,11 +8,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { userSchema } from "@/features/users/types/userSchema";
 import { createUserService } from "@/features/users/service/users.service";
 import { CONFIG } from "@/constants/config";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
 	const userService = createUserService({
 		tokenValidator: (token) => token === CONFIG.TOKEN,
 	});
+
+	const [canGoToLogin, setCanGoToLogin] = useState(false);
+	const navigate = useNavigate();
 
 	const form = useForm<FormType>({
 		resolver: zodResolver(userSchema),
@@ -32,7 +37,9 @@ const SignUp = () => {
 			});
 
 			form.reset();
+			setCanGoToLogin(true);
 		} catch (error) {
+			setCanGoToLogin(false);
 			form.setError("root", {
 				type: "server",
 				message:
@@ -46,7 +53,7 @@ const SignUp = () => {
 		<div className="form-container">
 			<Form {...form}>
 				<form className="form-content" onSubmit={form.handleSubmit(onSubmit)}>
-					<div>
+					<div className="form-field">
 						<Label htmlFor="username">Nombre de Usuario</Label>
 						<Input
 							id="username"
@@ -61,7 +68,7 @@ const SignUp = () => {
 							</p>
 						)}
 					</div>
-					<div>
+					<div className="form-field">
 						<Label htmlFor="password">Password</Label>
 						<Input
 							id="password"
@@ -76,7 +83,7 @@ const SignUp = () => {
 							</p>
 						)}
 					</div>
-					<div>
+					<div className="form-field">
 						{form.formState.errors.root && (
 							<p className="text-red-600 text-sm">
 								{form.formState.errors.root.message}
@@ -84,6 +91,15 @@ const SignUp = () => {
 						)}
 						<span>
 							<Button type="submit">Sign Up</Button>
+							<Button
+								className="ml-2"
+								variant="outline"
+								type="button"
+								disabled={!canGoToLogin}
+								onClick={() => navigate("/login")}
+							>
+								Volver
+							</Button>
 						</span>
 					</div>
 				</form>

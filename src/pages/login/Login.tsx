@@ -53,7 +53,7 @@ const Login = () => {
 		<div className="form-container">
 			<Form {...form}>
 				<form className="form-content" onSubmit={form.handleSubmit(onSubmit)}>
-					<div>
+					<div className="form-field">
 						<Label htmlFor="username">Nombre de Usuario</Label>
 						<Input
 							id="username"
@@ -68,7 +68,7 @@ const Login = () => {
 							</p>
 						)}
 					</div>
-					<div>
+					<div className="form-field">
 						<Label htmlFor="password">Contraseña</Label>
 						<Input
 							id="password"
@@ -83,7 +83,7 @@ const Login = () => {
 							</p>
 						)}
 					</div>
-					<div>
+					<div className="form-field">
 						{form.formState.errors.root && (
 							<p className="text-red-600 text-sm">
 								{form.formState.errors.root.message}
