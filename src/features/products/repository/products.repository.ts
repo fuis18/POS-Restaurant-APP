@@ -46,6 +46,12 @@ export async function getAllProducts(
 	);
 }
 
+export async function getAllProductsForExport(): Promise<ProductListItem[]> {
+	return select<ProductListItem>(
+		"SELECT id, code, name, price FROM products WHERE state = 1",
+	);
+}
+
 export async function getProductsCount(): Promise<number> {
 	const result = await select<{ count: number }>(
 		"SELECT COUNT(*) as count FROM products",

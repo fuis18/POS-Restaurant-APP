@@ -1,4 +1,4 @@
-# Restaurant App
+# Restaurant App POS
 
 **This is a restaurant app that allows you to manage your restaurant's sales and inventory.**
 
@@ -117,13 +117,7 @@ bun tauri dev
 
 ## Por hacer
 
-1. Filter Sales Hour
-2. random token & isolation
-3. update the import for acepted excel's files
-4. export
-5. Graphics
-6. visual table scroll
-7. credits
-8. Settings
+1. random token & isolation
+2. credits
 
 <!-- bun tauri add store -->

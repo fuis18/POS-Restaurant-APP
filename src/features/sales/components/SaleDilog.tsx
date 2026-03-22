@@ -33,48 +33,48 @@ const SaleDialog = ({ open, onOpenChange, saleItems }: SaleDialogProps) => {
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="max-w-lg">
+			<DialogContent className="max-w-lg max-h-[80vh] flex flex-col">
 				<DialogHeader>
 					<DialogTitle>Detalle de la venta</DialogTitle>
 				</DialogHeader>
 
 				{!saleItems ? (
-					<p className="mt-2">Cargando...</p>
+					<p>Cargando...</p>
 				) : (
-					<Table className="mt-4">
-						<TableHeader>
-							<TableRow>
-								<TableHead>Código</TableHead>
-								<TableHead>Producto</TableHead>
-								<TableHead>Cantidad</TableHead>
-								<TableHead>Precio</TableHead>
-								<TableHead>Total</TableHead>
-							</TableRow>
-						</TableHeader>
-						<TableBody>
-							{saleItems.map((item) => (
-								<TableRow key={item.id}>
-									<TableCell>{item.code}</TableCell>
-									<TableCell>{item.name}</TableCell>
-									<TableCell>{item.quantity}</TableCell>
-									<TableCell>${item.price_at_sale}</TableCell>
-									<TableCell>
-										S/.{(item.price_at_sale * item.quantity).toFixed(2)}
-									</TableCell>
-								</TableRow>
-							))}
-						</TableBody>
-						<TableHeader>
-							<TableRow>
-								<TableCell colSpan={4} className="text-right font-semibold">
-									Total venta
-								</TableCell>
-								<TableCell className="font-semibold">
-									S/.{totalSale.toFixed(2)}
-								</TableCell>
-							</TableRow>
-						</TableHeader>
-					</Table>
+					<>
+						<div className="flex-1 min-h-0 overflow-auto">
+							<Table>
+								<TableHeader>
+									<TableRow>
+										<TableHead>Código</TableHead>
+										<TableHead>Producto</TableHead>
+										<TableHead>Cantidad</TableHead>
+										<TableHead>Precio</TableHead>
+										<TableHead>Total</TableHead>
+									</TableRow>
+								</TableHeader>
+								<TableBody>
+									{saleItems.map((item) => (
+										<TableRow key={item.id}>
+											<TableCell>{item.code}</TableCell>
+											<TableCell>{item.name}</TableCell>
+											<TableCell>{item.quantity}</TableCell>
+											<TableCell>${item.price_at_sale}</TableCell>
+											<TableCell>
+												S/.{(item.price_at_sale * item.quantity).toFixed(2)}
+											</TableCell>
+										</TableRow>
+									))}
+								</TableBody>
+							</Table>
+						</div>
+
+						<div className="flex justify-end items-center border-t pt-3">
+							<span className="font-semibold">
+								Total venta: S/.{totalSale.toFixed(2)}
+							</span>
+						</div>
+					</>
 				)}
 			</DialogContent>
 		</Dialog>

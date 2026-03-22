@@ -41,6 +41,8 @@ export function useSales() {
 	const [selectedDate, setSelectedDate] = useState<{
 		from?: string;
 		to?: string;
+		timeFrom?: string;
+		timeTo?: string;
 	}>(getCurrentWeekRange());
 
 	// --------------------
@@ -92,8 +94,12 @@ export function useSales() {
 
 		// filters
 		selectedDate,
-		setSelectedDate: (date?: { from?: string; to?: string }) =>
-			setSelectedDate(date ?? getCurrentWeekRange()),
+		setSelectedDate: (date?: {
+			from?: string;
+			to?: string;
+			timeFrom?: string;
+			timeTo?: string;
+		}) => setSelectedDate(date ?? getCurrentWeekRange()),
 
 		// dialog
 		dialogOpen,

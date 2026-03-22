@@ -24,6 +24,10 @@ export const productService = {
 		return { data, total };
 	},
 
+	async exportAll() {
+		return repo.getAllProductsForExport();
+	},
+
 	async reactive(id: number) {
 		return repo.reactivateProduct(id);
 	},

@@ -5,12 +5,17 @@ export const salesService = {
 	async findAll(
 		limit: number,
 		offset: number,
-		date?: { from?: string; to?: string },
+		date?: { from?: string; to?: string; timeFrom?: string; timeTo?: string },
 	) {
 		return repo.getAllSales(limit, offset, date);
 	},
 
-	async count(date?: { from?: string; to?: string }) {
+	async count(date?: {
+		from?: string;
+		to?: string;
+		timeFrom?: string;
+		timeTo?: string;
+	}) {
 		return repo.getSalesCount(date);
 	},
 

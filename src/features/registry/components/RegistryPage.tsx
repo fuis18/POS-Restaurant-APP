@@ -24,14 +24,23 @@ export const RegistryPage = () => {
 
 	return (
 		<main className="RegistryPage-container">
-			<div>
-				<RegistryTable
-					data={data}
-					meta={{ updateCell, updateRow, addRow, focus, upsertProduct, submit }}
-					onSelectionChange={setSelectedRows}
-				/>
+			<div className="RegistryPage-left">
+				<div className="RegistryPage-tableScroll">
+					<RegistryTable
+						data={data}
+						meta={{
+							updateCell,
+							updateRow,
+							addRow,
+							focus,
+							upsertProduct,
+							submit,
+						}}
+						onSelectionChange={setSelectedRows}
+					/>
+				</div>
 
-				<div className="flex justify-end items-center">
+				<div className="RegistryPage-totalBar flex justify-end items-center">
 					<span className="mr-4 font-bold">Total: S/. {total.toFixed(2)}</span>
 				</div>
 			</div>

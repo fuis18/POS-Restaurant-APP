@@ -5,7 +5,7 @@ import type { CreateSale, Sale, SaleItem } from "../types/sales.types";
 export async function getAllSales(
 	limit: number,
 	offset: number,
-	date?: { from?: string; to?: string },
+	date?: { from?: string; to?: string; timeFrom?: string; timeTo?: string },
 ): Promise<Sale[]> {
 	let query = `
     SELECT id, date, total
@@ -14,9 +14,17 @@ export async function getAllSales(
 
 	const params: DbParam[] = [];
 
+	const where: string[] = [];
 	if (date?.from && date?.to) {
-		query += ` WHERE date(date) BETWEEN date(?) AND date(?)`;
+		where.push("date(date, 'localtime') BETWEEN date(?) AND date(?)");
 		params.push(date.from, date.to);
+	}
+	if (date?.timeFrom && date?.timeTo) {
+		where.push("time(date, 'localtime') BETWEEN time(?) AND time(?)");
+		params.push(date.timeFrom, date.timeTo);
+	}
+	if (where.length) {
+		query += ` WHERE ${where.join(" AND ")}`;
 	}
 
 	query += ` ORDER BY date DESC LIMIT ? OFFSET ?`;
@@ -38,13 +46,23 @@ export async function getSaleItems(saleId: number): Promise<SaleItem[]> {
 export async function getSalesCount(date?: {
 	from?: string;
 	to?: string;
+	timeFrom?: string;
+	timeTo?: string;
 }): Promise<number> {
 	let query = "SELECT COUNT(*) as count FROM sales";
 	const params: DbParam[] = [];
 
+	const where: string[] = [];
 	if (date?.from && date?.to) {
-		query += " WHERE date(date) BETWEEN date(?) AND date(?)";
+		where.push("date(date, 'localtime') BETWEEN date(?) AND date(?)");
 		params.push(date.from, date.to);
+	}
+	if (date?.timeFrom && date?.timeTo) {
+		where.push("time(date, 'localtime') BETWEEN time(?) AND time(?)");
+		params.push(date.timeFrom, date.timeTo);
+	}
+	if (where.length) {
+		query += ` WHERE ${where.join(" AND ")}`;
 	}
 
 	const result = await select<{ count: number }>(query, params);
@@ -54,13 +72,23 @@ export async function getSalesCount(date?: {
 export async function getSalesTotal(date?: {
 	from?: string;
 	to?: string;
+	timeFrom?: string;
+	timeTo?: string;
 }): Promise<number> {
 	let query = "SELECT COALESCE(SUM(total), 0) as total FROM sales";
 	const params: DbParam[] = [];
 
+	const where: string[] = [];
 	if (date?.from && date?.to) {
-		query += " WHERE date(date) BETWEEN date(?) AND date(?)";
+		where.push("date(date, 'localtime') BETWEEN date(?) AND date(?)");
 		params.push(date.from, date.to);
+	}
+	if (date?.timeFrom && date?.timeTo) {
+		where.push("time(date, 'localtime') BETWEEN time(?) AND time(?)");
+		params.push(date.timeFrom, date.timeTo);
+	}
+	if (where.length) {
+		query += ` WHERE ${where.join(" AND ")}`;
 	}
 
 	const result = await select<{ total: number }>(query, params);

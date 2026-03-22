@@ -5,6 +5,24 @@
 	gap: 1rem;
 	padding: 0 1rem;
 }
+
+.RegistryPage-left {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+	max-height: calc(100vh - 140px);
+}
+
+.RegistryPage-tableScroll {
+	flex: 1;
+	min-height: 0;
+	overflow: auto;
+}
+
+.RegistryPage-totalBar {
+	flex: 0 0 auto;
+	padding: 0.5rem 0;
+}
 .ProductsTable,
 .RegistryTable {
 	overflow-y: scroll;
